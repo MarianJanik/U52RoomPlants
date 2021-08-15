@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException, PlantException {
         final String FILE1 = "kvetiny.txt";
         final String FILE2 = "vystup.txt";
-        final String ErrorMessage = "Zadaná chybná hodnota: ";
+        final String ERROR_MESSAGE = "Zadaná chybná hodnota: ";
 
         System.out.println("\n--------------------------------------- Informace o zálivce:");
         PlantList myRegisterPlant = new PlantList();
@@ -19,11 +19,11 @@ public class Main {
         } catch (FileNotFoundException e) {
             System.err.println("Soubor s daty " + FILE1 + " nebyl nalezen.\nProgram pokračuje bez načtení souboru.");
         } catch (PlantException e) {
-            System.err.println(ErrorMessage + e.getMessage());
+            System.err.println(ERROR_MESSAGE + e.getMessage());
         } catch (NumberFormatException e) {
-            System.err.println(ErrorMessage + "není zadáno číslo!\n" + e.getMessage());
+            System.err.println(ERROR_MESSAGE + "není zadáno číslo!\n" + e.getMessage());
         } catch (DateTimeParseException e) {
-            System.err.println(ErrorMessage + "není zadáno datum!\n" + e.getMessage());
+            System.err.println(ERROR_MESSAGE + "není zadáno datum!\n" + e.getMessage());
         }
 
         System.out.println("\n--------------------------------------- Vložení dalších dvou květin:");
@@ -36,7 +36,7 @@ public class Main {
             orchidea = new Plant("Phalaenopsis","Růžové květy, v obýváku",
                     LocalDate.parse("2016-08-15"),LocalDate.parse("2020-08-15"),10);
         } catch (PlantException e) {
-            System.err.println(ErrorMessage + e.getMessage());
+            System.err.println(ERROR_MESSAGE + e.getMessage());
         }
         myRegisterPlant.addPlant(kaktus);
         myRegisterPlant.addPlant(orchidea);
