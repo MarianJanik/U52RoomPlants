@@ -5,11 +5,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * Třídu pro ukládání seznamu pokojových květin. Jako atribut bude mít kolekci uchovávající květiny.
+ * Třída nemá tisk na konzoli, odesílá text (chyby, getAllInfoWatering).
  */
 public class PlantList {
     private ArrayList <Plant> listOfPlants = new ArrayList<>();
@@ -18,10 +20,12 @@ public class PlantList {
     /**
      * Načtení databáze z textového souboru fileName.
      * @param fileName čtený textový soubor,
-     * @return seznam rostlin.
-     * @throws FileNotFoundException chyba - ZATÍM NEŘEŠENÁ.
+     * @return seznam rostlin,
+     * @throws FileNotFoundException - chyba ošetřena v Main,
+     * @throws PlantException - chyba ošetřena v Main.
      */
-    public static PlantList readDatabaseFromTxt(String fileName) throws FileNotFoundException {
+    public static PlantList readDatabaseFromTxt(String fileName) throws FileNotFoundException,
+            PlantException, NumberFormatException, DateTimeParseException {
         PlantList listOfPlants = new PlantList();
         try (Scanner scanner = new Scanner(new FileInputStream(fileName))){
             while (scanner.hasNextLine()){
@@ -41,7 +45,7 @@ public class PlantList {
     /**
      * Zápis databáze do textového souboru (oddělovač-tabulátor).
      * @param fileName název textového souboru,
-     * @throws FileNotFoundException výjimka - ZATÍM NEŘEŠENÁ.
+     * @throws FileNotFoundException výjimka - neřešená, soubor se vždy znovu vytváří.
      */
     public void writeDatabaseToTxt(String fileName) throws FileNotFoundException {
         try (PrintWriter writer = new PrintWriter(new FileOutputStream(fileName))){
@@ -81,11 +85,13 @@ public class PlantList {
     }
 
     /**
-     * Tisk kolekce rostlin.
+     * Výstupní text kolekce rostlin.
      */
-    public void printInfoWatering(){
+    public String getAllInfoWatering(){
+        StringBuilder text = new StringBuilder();
         for (Plant plant:listOfPlants) {
-            System.out.println(plant.getWateringInfo());
+            text.append(plant.getWateringInfo()+"\n");
         }
+        return text.toString();
     }
 }

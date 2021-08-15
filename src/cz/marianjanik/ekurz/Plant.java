@@ -14,6 +14,7 @@ public class Plant {
     private LocalDate watering;
     private int frequencyOfWatering;
 
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.YY");
     /**
      * Následují 3 konstruktory.
      * Construktor 1.
@@ -23,26 +24,41 @@ public class Plant {
      * @param watering datum poslední zálivky,
      * @param frequencyOfWatering běžná frekvence zálivky ve dnech.
      */
-    public Plant(String name, String notes, LocalDate planted, LocalDate watering, int frequencyOfWatering) {
+    public Plant(String name, String notes, LocalDate planted, LocalDate watering,
+                 int frequencyOfWatering) throws PlantException {
         this.name = name;
         this.notes = notes;
         this.planted = planted;
         this.watering = watering;
+        if (watering.isBefore(planted)){
+            throw new PlantException("Datum zálivky musí být po datumu zasazení rostliny. "
+                    + "\nU rostliny \"" + name + "\" bylo zadáno: "
+                    + "\ndatum zasazení: " + formatter.format(planted)
+                    + "\ndatum zálivky: " + formatter.format(watering));// TODO tady Java-třída DateTimeFormatter
+            // TODO podle mně dělá chybu: (2.1.21 převádí na 2.1.20 a 1.1.21 převádí na 1.1.20 - viz Fialka 1).
+        }
         this.frequencyOfWatering = frequencyOfWatering;
+        if (frequencyOfWatering<=0) {
+            throw new PlantException("Frekvence zálivky musí být nenulové kladné celé číslo." +
+                    "\nU rostliny \"" + name + "\" bylo zadáno: "
+                    + frequencyOfWatering);
+        }
+
+
     }
 
     /**
      * Construktor 2.
      */
-    public Plant(String name, LocalDate planted, int frequencyOfWatering) {
+    public Plant(String name, LocalDate planted, int frequencyOfWatering) throws PlantException {
         this(name,"",planted,LocalDate.now(),frequencyOfWatering);
     }
 
     /**
      * Construktor 3
      */
-    public Plant(String name) {
-        this(name,"",LocalDate.now(),LocalDate.now(),7);
+    public Plant(String name) throws PlantException {
+        this(name,LocalDate.now(),7);
     }
 
     /**
@@ -93,7 +109,6 @@ public class Plant {
      * @return text.
      */
     public String getWateringInfo() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.YY");
         String text = this.name + ", " + formatter.format(this.watering) + ", "
                 +  formatter.format(this.watering.plusDays(this.frequencyOfWatering));
         return text;

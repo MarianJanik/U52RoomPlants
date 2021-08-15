@@ -1,4 +1,4 @@
-Fialka 1	Popis fialky - je fialová a hezká	3	2021-05-12	2021-01-01
+Fialka 1	Popis fialky - je fialová a hezká	3	2021-01-02	2020-12-15
 Sukulent v koupelně	Nezalévá se	365	2011-03-01	2011-03-01
-Ferocactus stainesii na WC	Zalévá se 1x/rok	365	2020-08-15	2016-08-15
-Phalaenopsis v obýváku	Růžové květy	10	2020-08-15	2016-08-15
+Ferocactus stainesii	Zalévá se 1x/rok, na WC	365	2020-08-15	2016-08-15
+Phalaenopsis	Růžové květy, v obýváku	10	2020-08-15	2016-08-15
