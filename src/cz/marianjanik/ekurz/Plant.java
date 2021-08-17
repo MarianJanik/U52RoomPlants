@@ -14,7 +14,7 @@ public class Plant {
     private LocalDate watering;
     private int frequencyOfWatering;
 
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.YY");
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d.M.yy");
     /**
      * Následují 3 konstruktory.
      * Construktor 1.
