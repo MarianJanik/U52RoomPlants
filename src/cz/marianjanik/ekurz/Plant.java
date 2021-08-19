@@ -29,22 +29,8 @@ public class Plant {
         this.name = name;
         this.notes = notes;
         this.planted = planted;
-        this.watering = watering;
-        if (watering.isBefore(planted)){
-            throw new PlantException("Datum zálivky musí být po datumu zasazení rostliny. "
-                    + "\nU rostliny \"" + name + "\" bylo zadáno: "
-                    + "\ndatum zasazení: " + formatter.format(planted)
-                    + "\ndatum zálivky: " + formatter.format(watering));// TODO tady Java-třída DateTimeFormatter
-            // TODO podle mně dělá chybu: (2.1.21 převádí na 2.1.20 a 1.1.21 převádí na 1.1.20 - viz Fialka 1).
-        }
-        this.frequencyOfWatering = frequencyOfWatering;
-        if (frequencyOfWatering<=0) {
-            throw new PlantException("Frekvence zálivky musí být nenulové kladné celé číslo." +
-                    "\nU rostliny \"" + name + "\" bylo zadáno: "
-                    + frequencyOfWatering);
-        }
-
-
+        setWatering(watering);
+        setFrequencyOfWatering(frequencyOfWatering);
     }
 
     /**
@@ -92,16 +78,25 @@ public class Plant {
         return watering;
     }
 
-    public void setWatering(LocalDate watering) {
-        this.watering = watering;
+    public void setWatering(LocalDate watering) throws PlantException {
+        if (watering.isBefore(planted)){
+            throw new PlantException("Datum zálivky musí být po datumu zasazení rostliny. "
+                    + "\nU rostliny \"" + name + "\" bylo zadáno: "
+                    + "\ndatum zasazení: " + formatter.format(planted)
+                    + "\ndatum zálivky: " + formatter.format(watering));
+        } else this.watering = watering;
     }
 
     public int getFrequencyOfWatering() {
         return frequencyOfWatering;
     }
 
-    public void setFrequencyOfWatering(int frequencyOfWatering) {
-        this.frequencyOfWatering = frequencyOfWatering;
+    public void setFrequencyOfWatering(int frequencyOfWatering) throws PlantException {
+        if (frequencyOfWatering<=0) {
+            throw new PlantException("Frekvence zálivky musí být nenulové kladné celé číslo." +
+                    "\nU rostliny \"" + name + "\" bylo zadáno: "
+                    + frequencyOfWatering);
+        } else this.frequencyOfWatering = frequencyOfWatering;
     }
 
     /**

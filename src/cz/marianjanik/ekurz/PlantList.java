@@ -25,12 +25,15 @@ public class PlantList {
      * @throws PlantException - chyba ošetřena v Main.
      */
     public static PlantList readDatabaseFromTxt(String fileName) throws FileNotFoundException,
-            PlantException, NumberFormatException, DateTimeParseException {
+            NumberFormatException, DateTimeParseException, PlantException {
         PlantList listOfPlants = new PlantList();
+        String [] parseInfoPlant = null;
+        int row = 0;
         try (Scanner scanner = new Scanner(new FileInputStream(fileName))){
             while (scanner.hasNextLine()){
+                row++;
                 String inputLine = scanner.nextLine();
-                String [] parseInfoPlant = inputLine.split("\t");
+                parseInfoPlant = inputLine.split("\t");
                 int number = Integer.valueOf(parseInfoPlant[2]);
                 Plant plant = new Plant(parseInfoPlant[0],parseInfoPlant[1],
                         LocalDate.parse(parseInfoPlant[4]),
@@ -38,6 +41,13 @@ public class PlantList {
                         number);
                 listOfPlants.addPlant(plant);
             }
+        } catch (NumberFormatException e) {
+            throw new PlantException("Došlo k chybě při čtení \"frekvence zálivky\" na řádku " + row + ", bylo zadáno: \"" + parseInfoPlant[2] + "\".");
+//            e.printStackTrace();
+        } catch (DateTimeParseException e) {
+            throw new PlantException("Došlo k chybě při čtení \"datumu\" na řádku " + row + ".");
+        } catch (PlantException e) {
+        throw new PlantException(e.getLocalizedMessage() + ", na řádku " + row + ".");
         }
         return listOfPlants;
     }
